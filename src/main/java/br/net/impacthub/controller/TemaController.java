@@ -48,8 +48,12 @@ public class TemaController {
 	}
 	
 	@GetMapping("/nivelurgencia/{nivelUrgencia}")
-	public ResponseEntity<List<Tema>> getByUrgencia(@PathVariable String nivelUrgencia){
-		return ResponseEntity.ok(temaRepository.findAllByUrgenciaContainingIgnoreCase(nivelUrgencia));
+	public ResponseEntity<List<Tema>> getByUrgencia(@PathVariable String nivelUrgencia) {
+	    List<Tema> temas = temaRepository.findAllByNivelUrgenciaIgnoreCase(nivelUrgencia);
+	    if (temas.isEmpty()) {
+	        return ResponseEntity.notFound().build();
+	    }
+	    return ResponseEntity.ok(temas);
 	}
 	
 	@PostMapping
