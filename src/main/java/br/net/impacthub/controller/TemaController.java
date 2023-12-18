@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import br.net.impacthub.model.Postagem;
 import br.net.impacthub.model.Tema;
 import br.net.impacthub.repository.TemaRepository;
 import jakarta.validation.Valid;
@@ -68,13 +69,14 @@ public class TemaController {
 				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
 	}
 	
-	@ResponseStatus(HttpStatus.NO_CONTENT)
 	@DeleteMapping("/{id}")
-	public void delete(@PathVariable Long id) {
-		Optional<Tema> tema = temaRepository.findById(id);
-		if(tema.isEmpty())
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+	public ResponseEntity<Postagem> delete(@PathVariable Long id) {
+		if (temaRepository.findById(id).isEmpty()) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+		
 		temaRepository.deleteById(id);
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 	
 }
