@@ -13,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -34,6 +35,7 @@ public class Usuario {
 	@Column(length = 100)
 	private String senha;
 	
+	@Email
 	@NotBlank(message = "Por favor, insira um email para o usuário!")
 	@Size(min = 5, max = 100, message = "O email deve ter no mínimo 5 e no máximo 100 caracteres.")
 	@Column(length = 100)
