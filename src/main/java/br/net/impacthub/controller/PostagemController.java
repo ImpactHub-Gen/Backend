@@ -1,7 +1,7 @@
 package br.net.impacthub.controller;
 
+import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,9 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import br.net.impacthub.model.Postagem;
 import br.net.impacthub.repository.PostagemRepository;
@@ -49,8 +48,8 @@ public class PostagemController {
 	
 	@PostMapping
 	public ResponseEntity<Postagem> post(@Valid @RequestBody Postagem postagem) {
-		return ResponseEntity.status(HttpStatus.CREATED)//COLOCAR CHECAGEM QUANDO TIVER REPOSITORY USUARIO
-				.body(postagemRepository.save(postagem));
+	    return ResponseEntity.status(HttpStatus.CREATED)
+	            .body(postagemRepository.save(postagem));
 	}
 	
 	@PutMapping
@@ -65,11 +64,11 @@ public class PostagemController {
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Postagem> delete(@PathVariable Long id) {
-		if (postagemRepository.findById(id).isEmpty()) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		if (postagemRepository.findById(id).isPresent()) {
+			postagemRepository.deleteById(id);
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		}
 		
-		postagemRepository.deleteById(id);
-		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 	}
 }
