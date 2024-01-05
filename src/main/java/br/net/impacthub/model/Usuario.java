@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -31,11 +32,12 @@ public class Usuario {
 	private String nome;
 	
 	@NotBlank(message = "Por favor, insira uma senha para o usuário!")
-	@Size(min = 12, max = 100, message = "A senha deve ter no mínimo 12 e no máximo 100 caracteres.")
+	@Size(min = 8, max = 100, message = "A senha deve ter no mínimo 12 e no máximo 100 caracteres.")
 	@Column(length = 100)
 	private String senha;
 	
-	@Email
+	@Schema(example = "email@email.com.br")
+	@Email(message = "Por favor, insira um email válido!")
 	@NotBlank(message = "Por favor, insira um email para o usuário!")
 	@Size(min = 5, max = 100, message = "O email deve ter no mínimo 5 e no máximo 100 caracteres.")
 	@Column(length = 100)
