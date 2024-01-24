@@ -43,6 +43,8 @@ public class Usuario {
 	@Column(length = 100)
 	private String email;
 	
+	private String foto;
+
 	@NotBlank(message = "Por favor, insira o tipo de usuário")
 	private String tipo;
 	
@@ -85,6 +87,14 @@ public class Usuario {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	public String getFoto() {
+		return foto;
+	}
+
+	public void setFoto(String foto) {
+		this.foto = foto;
 	}
 
 	public String getTipo() {
