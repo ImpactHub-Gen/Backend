@@ -69,14 +69,13 @@ public class TemaController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 		
-		Tema newTema = optionalTema.get();
 		try {
-			temaRepository.save(newTema);
+			temaRepository.save(tema);
 		} catch (Exception e) {
 			throw e;
 		}
 		
-		return ResponseEntity.status(HttpStatus.OK).body(newTema);
+		return ResponseEntity.status(HttpStatus.OK).body(tema);
 		
 		/*return temaRepository.findById(tema.getId())
 				.map(resp -> ResponseEntity.status(HttpStatus.OK).body(temaRepository.save(tema)))
