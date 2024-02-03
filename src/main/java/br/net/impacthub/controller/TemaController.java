@@ -64,9 +64,23 @@ public class TemaController {
 	
 	@PutMapping
 	public ResponseEntity<Tema> put(@Valid @RequestBody Tema tema){
-		return temaRepository.findById(tema.getId())
+		Optional<Tema> optionalTema = temaRepository.findById(tema.getId());
+		if (optionalTema.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+		}
+		
+		Tema newTema = optionalTema.get();
+		try {
+			temaRepository.save(newTema);
+		} catch (Exception e) {
+			throw e;
+		}
+		
+		return ResponseEntity.status(HttpStatus.OK).body(newTema);
+		
+		/*return temaRepository.findById(tema.getId())
 				.map(resp -> ResponseEntity.status(HttpStatus.OK).body(temaRepository.save(tema)))
-				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+				.orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());*/
 	}
 	
 	@DeleteMapping("/{id}")
